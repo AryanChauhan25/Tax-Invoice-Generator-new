@@ -8,9 +8,9 @@ An Invoice creator project built with React. Add itemized items, configure quant
 https://tax-invoice-generator-new.vercel.app/
 
 ### Screenshots
-<img src="" style="max-width: 100px; width: 100%; height: auto;">
-<img src="" style="max-width: 100px; width: 100%; height: auto;">
-<img src="" style="max-width: 100px; width: 100%; height: auto;">
+<img src="https://github.com/user-attachments/assets/d2be1e55-9e1c-4fb6-bde0-3a3c2aebd362" style="max-width: 100px; width: 100%; height: auto;">
+<img src="https://github.com/user-attachments/assets/d56191ab-872d-4a5c-9ff7-274c67d74b6a" style="max-width: 100px; width: 100%; height: auto;">
+<img src="https://github.com/user-attachments/assets/dee76eb7-eb42-4a2f-a183-ca97ef4bab20" style="max-width: 100px; width: 100%; height: auto;">
 
 ### Installation
 
