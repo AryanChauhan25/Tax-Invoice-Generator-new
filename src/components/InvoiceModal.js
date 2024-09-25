@@ -79,9 +79,12 @@ class InvoiceModal extends React.Component {
               <Table className="mb-0">
                 <thead>
                   <tr>
+                    <th>ITEM - DESCRIPTION</th>
                     <th>QTY</th>
-                    <th>DESCRIPTION</th>
-                    <th className="text-end">PRICE</th>
+                    <th>PRICE</th>
+                    <th>SGST</th>
+                    <th>CGST</th>
+                    <th>CESS</th>
                     <th className="text-end">AMOUNT</th>
                   </tr>
                 </thead>
@@ -89,14 +92,36 @@ class InvoiceModal extends React.Component {
                   {this.props.items.map((item, i) => {
                     return (
                       <tr id={i} key={i}>
-                        <td style={{width: '70px'}}>
-                          {item.quantity}
-                        </td>
                         <td>
                           {item.name} - {item.description}
                         </td>
-                        <td className="text-end" style={{width: '100px'}}>{this.props.currency} {item.price}</td>
-                        <td className="text-end" style={{width: '100px'}}>{this.props.currency} {item.price * item.quantity}</td>
+                        <td style={{width: '60px'}}>
+                          {item.quantity}
+                        </td>
+                        <td style={{width: '100px'}}>
+                          {this.props.currency} {item.price}
+                        </td>
+                        <td style={{width: '100px'}}>
+                          {this.props.currency} 
+                          {(parseFloat(item.sgst).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))} 
+                          <br/>
+                          ({item.sgst})%
+                        </td>
+                        <td style={{width: '100px'}}>
+                          {this.props.currency} 
+                          {(parseFloat(item.cgst).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))}
+                          <br/>
+                          ({item.cgst})%
+                        </td>
+                        <td style={{width: '100px'}}>
+                          {this.props.currency} 
+                          {(parseFloat(item.cess).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))}
+                          <br/>
+                          ({item.cess})%
+                        </td>
+                        <td className="text-end" style={{width: '100px'}}>
+                          {this.props.currency} {item.price * item.quantity}
+                        </td>
                       </tr>
                     );
                   })}
@@ -114,18 +139,11 @@ class InvoiceModal extends React.Component {
                     <td className="fw-bold" style={{width: '100px'}}>SUBTOTAL</td>
                     <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.subTotal}</td>
                   </tr>
-                  {this.props.taxAmmount !== 0.00 &&
-                    <tr className="text-end">
-                      <td></td>
-                      <td className="fw-bold" style={{width: '100px'}}>TAX</td>
-                      <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.taxAmmount}</td>
-                    </tr>
-                  }
                   {this.props.discountAmmount !== 0.00 &&
                     <tr className="text-end">
                       <td></td>
                       <td className="fw-bold" style={{width: '100px'}}>DISCOUNT</td>
-                      <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.discountAmmount}</td>
+                      <td className="text-end" style={{width: '100px'}}>({this.props.info.discountRate || 0}%){this.props.currency} {this.props.discountAmmount}</td>
                     </tr>
                   }
                   <tr className="text-end">

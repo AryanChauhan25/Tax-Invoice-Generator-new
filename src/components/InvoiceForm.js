@@ -32,8 +32,6 @@ class InvoiceForm extends React.Component {
       termsAndConditions: '',
       total: '0.00',
       subTotal: '0.00',
-      taxRate: '',
-      taxAmmount: '0.00',
       discountRate: '',
       discountAmmount: '0.00'
     };
@@ -42,14 +40,17 @@ class InvoiceForm extends React.Component {
         id: 0,
         name: '',
         description: '',
-        price: '0.00',
-        quantity: 0
+        price: '1.00',
+        quantity: 1,
+        sgst: '0.00',
+        cgst: '0.00',
+        cess: '0.00'
       }
     ];
     this.editField = this.editField.bind(this);
   }
-  componentDidMount(prevProps) {
-    this.handleCalculateTotal()
+  componentDidMount() {
+    this.handleCalculateTotal();
   }
   handleRowDel(items) {
     var index = this.state.items.indexOf(items);
@@ -63,7 +64,10 @@ class InvoiceForm extends React.Component {
       name: '',
       price: '1.00',
       description: '',
-      quantity: 1
+      quantity: 1,
+      sgst: '0.00',
+      cgst: '0.00',
+      cess: '0.00'
     }
     this.state.items.push(items);
     this.setState(this.state.items);
@@ -74,25 +78,25 @@ class InvoiceForm extends React.Component {
 
     // eslint-disable-next-line
     items.map(function(items) {
-      subTotal = parseFloat(subTotal + (parseFloat(items.price).toFixed(2) * parseInt(items.quantity))).toFixed(2)
+      let amount = (parseFloat(items.price).toFixed(2) * parseInt(items.quantity));
+      let sgst = (parseFloat(items.sgst).toFixed(2) * (amount / 100));
+      let cgst = (parseFloat(items.cgst).toFixed(2) * (amount / 100));
+      let cess = (parseFloat(items.cess).toFixed(2) * (amount / 100));
+      amount = parseFloat(amount + (parseFloat(sgst) + parseFloat(cgst) + parseFloat(cess))).toFixed(2);
+      subTotal = parseFloat(subTotal + amount).toFixed(2)
     });
 
     this.setState({
       subTotal: parseFloat(subTotal).toFixed(2)
     }, () => {
       this.setState({
-        taxAmmount: parseFloat(parseFloat(subTotal) * (this.state.taxRate / 100)).toFixed(2)
+        discountAmmount: parseFloat(parseFloat(subTotal) * (this.state.discountRate / 100)).toFixed(2)
       }, () => {
         this.setState({
-          discountAmmount: parseFloat(parseFloat(subTotal) * (this.state.discountRate / 100)).toFixed(2)
-        }, () => {
-          this.setState({
-            total: ((subTotal - this.state.discountAmmount) + parseFloat(this.state.taxAmmount))
-          });
+          total: (subTotal - this.state.discountAmmount)
         });
       });
     });
-
   };
   onItemizedItemEdit(evt) {
     var item = {
@@ -196,14 +200,6 @@ class InvoiceForm extends React.Component {
                     {this.state.currency}
                     {this.state.discountAmmount || 0}</span>
                 </div>
-                <div className="d-flex flex-row align-items-start justify-content-between mt-2">
-                  <span className="fw-bold">Tax:
-                  </span>
-                  <span>
-                    <span className="small ">({this.state.taxRate || 0}%)</span>
-                    {this.state.currency}
-                    {this.state.taxAmmount || 0}</span>
-                </div>
                 <hr/>
                 <div className="d-flex flex-row align-items-start justify-content-between" style={{
                     fontSize: '1.125rem'
@@ -240,15 +236,6 @@ class InvoiceForm extends React.Component {
                 <option value="¥">CNY (Chinese Renminbi)</option>
                 <option value="₿">BTC (Bitcoin)</option>
               </Form.Select>
-            </Form.Group>
-            <Form.Group className="my-3">
-              <Form.Label className="fw-bold">Tax rate:</Form.Label>
-              <InputGroup className="my-1 flex-nowrap">
-                <Form.Control name="taxRate" type="number" value={this.state.taxRate} onChange={(event) => this.editField(event)} className="bg-white border" placeholder="0.0" min="0.00" step="0.01" max="100.00"/>
-                <InputGroup.Text className="bg-light fw-bold text-secondary small">
-                  %
-                </InputGroup.Text>
-              </InputGroup>
             </Form.Group>
             <Form.Group className="my-3">
               <Form.Label className="fw-bold">Discount rate:</Form.Label>
