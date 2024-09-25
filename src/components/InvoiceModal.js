@@ -105,19 +105,19 @@ class InvoiceModal extends React.Component {
                           {this.props.currency} 
                           {(parseFloat(item.sgst).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))} 
                           <br/>
-                          ({item.sgst})%
+                          ({parseFloat(item.sgst).toFixed(2)})%
                         </td>
                         <td style={{width: '100px'}}>
                           {this.props.currency} 
                           {(parseFloat(item.cgst).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))}
                           <br/>
-                          ({item.cgst})%
+                          ({parseFloat(item.cgst).toFixed(2)})%
                         </td>
                         <td style={{width: '100px'}}>
                           {this.props.currency} 
                           {(parseFloat(item.cess).toFixed(2) * ((parseFloat(item.price).toFixed(2) * parseInt(item.quantity)) / 100))}
                           <br/>
-                          ({item.cess})%
+                          ({parseFloat(item.cess).toFixed(2)})%
                         </td>
                         <td className="text-end" style={{width: '100px'}}>
                           {this.props.currency} {item.price * item.quantity}
