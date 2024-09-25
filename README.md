@@ -15,7 +15,7 @@ https://tax-invoice-generator-new.vercel.app/
 ### Installation
 
 ```
-git clone https://github.com/AryanChauhan25/invoice-generator
+git clone https://github.com/AryanChauhan25/Tax-Invoice-Generator-new.git
 
 npm install
 
